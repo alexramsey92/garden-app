@@ -49,6 +49,7 @@ type Store interface {
 	GetTrayCell(ctx context.Context, id int64) (*models.TrayCell, error)
 	SetTrayCell(ctx context.Context, c *models.TrayCell) error
 	ClearTrayCell(ctx context.Context, id int64) error
+	BulkSetTrayCells(ctx context.Context, cellIDs []int64, seedID *int64, label, status string, sownAt *time.Time) ([]models.TrayCell, error)
 
 	// Beds
 	AddBed(ctx context.Context, b *models.RaisedBed) (int64, error)

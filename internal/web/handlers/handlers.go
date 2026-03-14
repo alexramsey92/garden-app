@@ -89,6 +89,7 @@ func (h *Handler) RegisterRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("GET /trays/{id}/cells/{cid}/edit", h.TraysCellEditForm)
 	mux.HandleFunc("POST /trays/{id}/cells/{cid}", h.TraysCellSave)
 	mux.HandleFunc("DELETE /trays/{id}/cells/{cid}", h.TraysCellClear)
+	mux.HandleFunc("POST /trays/{id}/cells/bulk", h.TraysCellsBulkSow)
 	mux.HandleFunc("GET /trays/{id}/cells/{cid}/transplant", h.TraysCellTransplantForm)
 	mux.HandleFunc("POST /trays/{id}/cells/{cid}/transplant", h.TraysCellTransplant)
 

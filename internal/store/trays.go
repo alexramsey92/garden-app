@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"time"
 
 	"github.com/alexramsey92/garden-app/internal/models"
 )
@@ -158,4 +159,52 @@ func (s *SQLiteStore) ClearTrayCell(ctx context.Context, id int64) error {
 		    sown_at=NULL, germinated_at=NULL, failed_at=NULL, notes=''
 		WHERE id=?`, id)
 	return err
+}
+
+func (s *SQLiteStore) BulkSetTrayCells(ctx context.Context, cellIDs []int64, seedID *int64, label, status string, sownAt *time.Time) ([]models.TrayCell, error) {
+	tx, err := s.db.BeginTx(ctx, nil)
+	if err != nil {
+		return nil, fmt.Errorf("begin tx: %w", err)
+	}
+	defer tx.Rollback()
+
+	now := time.Now()
+	for _, id := range cellIDs {
+		var germinatedAt, failedAt *time.Time
+		sownAtVal := sownAt
+		switch status {
+		case "sown", "germinated":
+			if sownAtVal == nil {
+				sownAtVal = &now
+			}
+			if status == "germinated" {
+				germinatedAt = &now
+			}
+		case "failed":
+			failedAt = &now
+		case "empty":
+			sownAtVal = nil
+		}
+		if _, err := tx.ExecContext(ctx, `
+			UPDATE tray_cells
+			SET seed_id=?, label=?, status=?, sown_at=?, germinated_at=?, failed_at=?, notes=''
+			WHERE id=?`,
+			seedID, label, status, sownAtVal, germinatedAt, failedAt, id,
+		); err != nil {
+			return nil, fmt.Errorf("bulk update cell %d: %w", id, err)
+		}
+	}
+	if err := tx.Commit(); err != nil {
+		return nil, fmt.Errorf("commit: %w", err)
+	}
+
+	cells := make([]models.TrayCell, 0, len(cellIDs))
+	for _, id := range cellIDs {
+		c, err := s.GetTrayCell(ctx, id)
+		if err != nil || c == nil {
+			continue
+		}
+		cells = append(cells, *c)
+	}
+	return cells, nil
 }

@@ -46,10 +46,62 @@
     </table>
   </div>
 
-  <!-- Edit panel (HTMX loads form here) -->
+  <!-- Edit panel (HTMX loads single-cell form here) -->
   <div id="edit-panel" class="fixed bottom-0 left-0 right-0 z-50 pointer-events-none">
     <div class="pointer-events-auto">
     </div>
+  </div>
+
+  <!-- Bulk assign panel (shown when in select mode) -->
+  <div id="bulk-panel" class="hidden fixed bottom-0 left-0 right-0 z-50 bg-stone-900 border-t-2 border-green-500 shadow-2xl px-4 py-4">
+    <form id="bulk-form"
+          hx-post="/trays/{{.Tray.ID}}/cells/bulk"
+          hx-swap="none"
+          hx-on:htmx:after-request="htmxBulkDone()"
+          class="max-w-2xl mx-auto flex flex-wrap items-end gap-3">
+      <div id="bulk-cell-ids"></div>
+      <div class="text-sm font-semibold text-green-400 min-w-max">
+        <span id="bulk-count">0</span> pods selected
+      </div>
+      <div>
+        <label class="block text-xs text-stone-400 mb-1">Seed</label>
+        <select name="seed_id" class="bg-stone-800 border border-stone-600 text-stone-100 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-green-500">
+          <option value="">&#8212; no seed &#8212;</option>
+          {{range .Seeds}}
+          <option value="{{.ID}}">{{.Name}}{{if .Variety}} &middot; {{.Variety}}{{end}}</option>
+          {{end}}
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs text-stone-400 mb-1">Label <span class="text-stone-600">(optional)</span></label>
+        <input type="text" name="label" placeholder="auto from seed"
+               class="bg-stone-800 border border-stone-600 text-stone-100 placeholder-stone-600 rounded-lg px-3 py-1.5 text-sm w-36 focus:outline-none focus:ring-1 focus:ring-green-500">
+      </div>
+      <div>
+        <label class="block text-xs text-stone-400 mb-1">Status</label>
+        <select name="status" class="bg-stone-800 border border-stone-600 text-stone-100 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-green-500">
+          <option value="sown">Sown</option>
+          <option value="germinated">Germinated</option>
+          <option value="failed">Failed</option>
+          <option value="empty">Clear (empty)</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs text-stone-400 mb-1">Sow date</label>
+        <input type="date" name="sown_at"
+               class="bg-stone-800 border border-stone-600 text-stone-100 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-green-500">
+      </div>
+      <div class="flex gap-2 ml-auto">
+        <button type="submit"
+                class="bg-green-600 text-white text-sm px-4 py-1.5 rounded-lg hover:bg-green-700 transition-colors font-medium">
+          Apply to pods
+        </button>
+        <button type="button" onclick="toggleSelectMode()"
+                class="bg-stone-700 text-stone-200 text-sm px-4 py-1.5 rounded-lg hover:bg-stone-600 transition-colors">
+          Cancel
+        </button>
+      </div>
+    </form>
   </div>
 
 </div>
@@ -57,6 +109,7 @@
 
 {{define "tray-cell"}}
 <td id="cell-{{.Cell.ID}}"
+    data-cell-id="{{.Cell.ID}}"
     class="w-14 h-14 border border-stone-600 cursor-pointer relative {{cellBg .Cell.Label .Cell.Status}}"
     hx-get="/trays/{{.TrayID}}/cells/{{.Cell.ID}}/edit"
     hx-target="#edit-panel > div"
@@ -74,6 +127,7 @@
 
 {{define "tray-cell-oob"}}
 <td id="cell-{{.Cell.ID}}" hx-swap-oob="outerHTML"
+    data-cell-id="{{.Cell.ID}}"
     class="w-14 h-14 border border-stone-600 cursor-pointer relative {{cellBg .Cell.Label .Cell.Status}}"
     hx-get="/trays/{{.TrayID}}/cells/{{.Cell.ID}}/edit"
     hx-target="#edit-panel > div"
@@ -209,3 +263,78 @@
   </form>
 </div>
 {{end}}
+
+{{define "tray-bulk-result"}}
+{{range .Cells}}{{template "tray-cell-oob" (trayCellData $.TrayID .)}}{{end}}
+{{end}}
+
+<script>
+(function() {
+  var selectMode = false;
+  var selected = new Set();
+
+  window.toggleSelectMode = function() {
+    selectMode = !selectMode;
+    var btn = document.getElementById('select-mode-btn');
+    var panel = document.getElementById('bulk-panel');
+    var editPanel = document.getElementById('edit-panel');
+    if (selectMode) {
+      btn.textContent = '✕ Cancel selection';
+      btn.className = 'text-xs px-3 py-1.5 rounded-lg border border-red-600 text-red-400 hover:border-red-400 transition-colors';
+      panel.classList.remove('hidden');
+      editPanel.querySelector('div').innerHTML = '';
+    } else {
+      clearBulkSelection();
+    }
+  };
+
+  window.clearBulkSelection = function() {
+    selectMode = false;
+    selected.clear();
+    var btn = document.getElementById('select-mode-btn');
+    btn.textContent = '⊞ Select Pods';
+    btn.className = 'text-xs px-3 py-1.5 rounded-lg border border-stone-600 text-stone-300 hover:border-green-500 hover:text-green-400 transition-colors';
+    document.getElementById('bulk-panel').classList.add('hidden');
+    document.querySelectorAll('td.pod-selected').forEach(function(el) {
+      el.classList.remove('pod-selected', 'outline', 'outline-2', 'outline-green-400', 'outline-offset-[-2px]', 'z-10');
+    });
+    syncHiddenInputs();
+    document.getElementById('bulk-count').textContent = '0';
+  };
+
+  window.htmxBulkDone = function() {
+    clearBulkSelection();
+  };
+
+  function syncHiddenInputs() {
+    var container = document.getElementById('bulk-cell-ids');
+    container.innerHTML = '';
+    selected.forEach(function(id) {
+      var inp = document.createElement('input');
+      inp.type = 'hidden';
+      inp.name = 'cell_ids';
+      inp.value = id;
+      container.appendChild(inp);
+    });
+    document.getElementById('bulk-count').textContent = selected.size;
+  }
+
+  // Intercept cell clicks in select mode (capture phase beats HTMX)
+  document.getElementById('tray-grid-container').addEventListener('click', function(e) {
+    if (!selectMode) return;
+    var cell = e.target.closest('td[data-cell-id]');
+    if (!cell) return;
+    e.stopImmediatePropagation();
+    e.preventDefault();
+    var id = parseInt(cell.dataset.cellId, 10);
+    if (selected.has(id)) {
+      selected.delete(id);
+      cell.classList.remove('pod-selected', 'outline', 'outline-2', 'outline-green-400', 'outline-offset-[-2px]', 'z-10');
+    } else {
+      selected.add(id);
+      cell.classList.add('pod-selected', 'outline', 'outline-2', 'outline-green-400', 'outline-offset-[-2px]', 'z-10');
+    }
+    syncHiddenInputs();
+  }, true);
+})();
+</script>
