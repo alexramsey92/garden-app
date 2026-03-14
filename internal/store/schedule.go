@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/alexr/garden-app/internal/models"
+	"github.com/alexramsey92/garden-app/internal/models"
 )
 
 func (s *SQLiteStore) AddPlantingEntry(ctx context.Context, e *models.PlantingEntry) (int64, error) {

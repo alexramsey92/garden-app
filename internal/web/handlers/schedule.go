@@ -6,9 +6,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/alexr/garden-app/internal/models"
-	"github.com/alexr/garden-app/internal/planting"
-	"github.com/alexr/garden-app/internal/store"
+	"github.com/alexramsey92/garden-app/internal/models"
+	"github.com/alexramsey92/garden-app/internal/planting"
+	"github.com/alexramsey92/garden-app/internal/store"
 )
 
 type scheduleListData struct {

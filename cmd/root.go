@@ -8,8 +8,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/alexr/garden-app/internal/planting"
-	"github.com/alexr/garden-app/internal/store"
+	"github.com/alexramsey92/garden-app/internal/planting"
+	"github.com/alexramsey92/garden-app/internal/store"
 )
 
 // AppContext holds shared dependencies injected into subcommands.

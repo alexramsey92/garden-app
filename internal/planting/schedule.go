@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/alexr/garden-app/internal/models"
+	"github.com/alexramsey92/garden-app/internal/models"
 )
 
 // PlantingWindow holds the calculated planting dates for a plant.

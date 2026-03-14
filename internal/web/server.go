@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"fmt"
 
-	"github.com/alexr/garden-app/internal/planting"
-	"github.com/alexr/garden-app/internal/store"
-	"github.com/alexr/garden-app/internal/web/handlers"
+	"github.com/alexramsey92/garden-app/internal/planting"
+	"github.com/alexramsey92/garden-app/internal/store"
+	"github.com/alexramsey92/garden-app/internal/web/handlers"
 )
 
 // AppContext holds the shared services passed from the CLI layer.

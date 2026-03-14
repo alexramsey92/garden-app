@@ -6,7 +6,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/alexr/garden-app/internal/models"
+	"github.com/alexramsey92/garden-app/internal/models"
 )
 
 func (s *SQLiteStore) AddPlantSpec(ctx context.Context, spec *models.PlantSpec) (int64, error) {

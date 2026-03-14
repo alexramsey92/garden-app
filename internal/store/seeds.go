@@ -6,7 +6,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/alexr/garden-app/internal/models"
+	"github.com/alexramsey92/garden-app/internal/models"
 )
 
 func (s *SQLiteStore) AddSeed(ctx context.Context, seed *models.Seed) (int64, error) {

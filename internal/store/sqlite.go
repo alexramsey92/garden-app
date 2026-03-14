@@ -12,7 +12,7 @@ import (
 
 	_ "modernc.org/sqlite"
 
-	"github.com/alexr/garden-app/internal/models"
+	"github.com/alexramsey92/garden-app/internal/models"
 )
 
 //go:embed data/plant_specs.json

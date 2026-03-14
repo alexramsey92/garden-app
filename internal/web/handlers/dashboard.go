@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/alexr/garden-app/internal/store"
+	"github.com/alexramsey92/garden-app/internal/store"
 )
 
 type dashboardData struct {

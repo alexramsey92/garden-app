@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/alexr/garden-app/internal/models"
+	"github.com/alexramsey92/garden-app/internal/models"
 )
 
 // PlantingFilter filters planting entries in list queries.

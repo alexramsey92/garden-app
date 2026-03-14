@@ -7,9 +7,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/alexr/garden-app/internal/models"
-	"github.com/alexr/garden-app/internal/planting"
-	"github.com/alexr/garden-app/internal/store"
+	"github.com/alexramsey92/garden-app/internal/models"
+	"github.com/alexramsey92/garden-app/internal/planting"
+	"github.com/alexramsey92/garden-app/internal/store"
 )
 
 // monthMarker is one month label with its percentage position in the year.

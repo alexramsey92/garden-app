@@ -1,6 +1,6 @@
 package main
 
-import "github.com/alexr/garden-app/cmd"
+import "github.com/alexramsey92/garden-app/cmd"
 
 func main() {
 	cmd.Execute()

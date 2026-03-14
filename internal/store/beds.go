@@ -8,7 +8,7 @@ import (
 	"sort"
 	"time"
 
-	"github.com/alexr/garden-app/internal/models"
+	"github.com/alexramsey92/garden-app/internal/models"
 )
 
 func (s *SQLiteStore) AddBed(ctx context.Context, b *models.RaisedBed) (int64, error) {

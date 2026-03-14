@@ -9,9 +9,9 @@ import (
 	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
 
-	"github.com/alexr/garden-app/internal/models"
-	"github.com/alexr/garden-app/internal/planting"
-	"github.com/alexr/garden-app/internal/store"
+	"github.com/alexramsey92/garden-app/internal/models"
+	"github.com/alexramsey92/garden-app/internal/planting"
+	"github.com/alexramsey92/garden-app/internal/store"
 )
 
 var scheduleCmd = &cobra.Command{

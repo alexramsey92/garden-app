@@ -1,4 +1,4 @@
-module github.com/alexr/garden-app
+module github.com/alexramsey92/garden-app
 
 go 1.22
 
