@@ -23,12 +23,20 @@
   </div>
 
   <!-- Grid -->
-  <div class="bg-stone-50 rounded-xl border border-gray-200 p-4 overflow-x-auto">
+  <div class="bg-stone-800 border border-stone-700 rounded-xl p-5 overflow-x-auto">
     <table class="border-collapse">
+      <thead>
+        <tr>
+          <th class="w-7"></th>
+          {{range $colIdx, $_ := (index .Tray.Cells 0)}}
+          <th class="text-xs text-stone-500 font-normal pb-1 text-center w-14" style="min-width:3.5rem">{{$colIdx}}</th>
+          {{end}}
+        </tr>
+      </thead>
       <tbody>
         {{range $rowIdx, $row := .Tray.Cells}}
         <tr>
-          <td class="text-xs text-gray-300 pr-2 text-right w-6 select-none">{{$rowIdx}}</td>
+          <td class="text-xs text-stone-500 pr-2 text-right w-7 select-none">{{$rowIdx}}</td>
           {{range $row}}
           {{template "tray-cell" (trayCellData $.Tray.ID .)}}
           {{end}}
@@ -49,34 +57,34 @@
 
 {{define "tray-cell"}}
 <td id="cell-{{.Cell.ID}}"
-    class="w-10 h-10 border border-gray-200 cursor-pointer relative {{cellBg .Cell.Label .Cell.Status}}"
+    class="w-14 h-14 border border-stone-600 cursor-pointer relative {{cellBg .Cell.Label .Cell.Status}}"
     hx-get="/trays/{{.TrayID}}/cells/{{.Cell.ID}}/edit"
     hx-target="#edit-panel > div"
     hx-swap="innerHTML">
   {{if ne .Cell.Status "empty"}}
-  <div class="flex items-center justify-center h-full overflow-hidden px-0.5">
-    <span class="text-xs font-semibold leading-none text-center {{cellText .Cell.Label .Cell.Status}}" style="font-size:9px">
-      {{abbrev .Cell.Label 5}}
+  <div class="flex items-center justify-center h-full overflow-hidden px-1">
+    <span class="text-xs font-semibold leading-tight text-center {{cellText .Cell.Label .Cell.Status}}" style="font-size:11px">
+      {{abbrev .Cell.Label 6}}
     </span>
   </div>
-  <span class="absolute bottom-0.5 right-0.5 w-2 h-2 rounded-full {{statusDot .Cell.Status}}"></span>
+  <span class="absolute bottom-1 right-1 w-2.5 h-2.5 rounded-full {{statusDot .Cell.Status}}"></span>
   {{end}}
 </td>
 {{end}}
 
 {{define "tray-cell-oob"}}
 <td id="cell-{{.Cell.ID}}" hx-swap-oob="outerHTML"
-    class="w-10 h-10 border border-gray-200 cursor-pointer relative {{cellBg .Cell.Label .Cell.Status}}"
+    class="w-14 h-14 border border-stone-600 cursor-pointer relative {{cellBg .Cell.Label .Cell.Status}}"
     hx-get="/trays/{{.TrayID}}/cells/{{.Cell.ID}}/edit"
     hx-target="#edit-panel > div"
     hx-swap="innerHTML">
   {{if ne .Cell.Status "empty"}}
-  <div class="flex items-center justify-center h-full overflow-hidden px-0.5">
-    <span class="text-xs font-semibold leading-none text-center {{cellText .Cell.Label .Cell.Status}}" style="font-size:9px">
-      {{abbrev .Cell.Label 5}}
+  <div class="flex items-center justify-center h-full overflow-hidden px-1">
+    <span class="text-xs font-semibold leading-tight text-center {{cellText .Cell.Label .Cell.Status}}" style="font-size:11px">
+      {{abbrev .Cell.Label 6}}
     </span>
   </div>
-  <span class="absolute bottom-0.5 right-0.5 w-2 h-2 rounded-full {{statusDot .Cell.Status}}"></span>
+  <span class="absolute bottom-1 right-1 w-2.5 h-2.5 rounded-full {{statusDot .Cell.Status}}"></span>
   {{end}}
 </td>
 {{end}}

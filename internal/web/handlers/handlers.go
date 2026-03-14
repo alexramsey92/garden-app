@@ -180,17 +180,29 @@ func templateFuncs() template.FuncMap {
 		"formatMMDD": FormatMMDD,
 		"deref":      derefInt64,
 		"typeClass":  plantingTypeClass,
-		"formatDate":    func(t time.Time) string { return t.Format("2006-01-02") },
-		"formatDatePtr": func(t *time.Time) string { if t == nil { return "" }; return t.Format("2006-01-02") },
-		"neg":  func(n int) int { return -n },
-		"lt0":  func(n int) bool { return n < 0 },
-		"fmtPct":   func(f float64) string { return fmt.Sprintf("%.2f", f) },
-		"todayPct": func(year int) float64 { n := time.Now(); return datePctFloat(&n, year) },
+		"formatDate": func(t time.Time) string { return t.Format("2006-01-02") },
+		"formatDatePtr": func(t *time.Time) string {
+			if t == nil {
+				return ""
+			}
+			return t.Format("2006-01-02")
+		},
+		"neg":       func(n int) int { return -n },
+		"lt0":       func(n int) bool { return n < 0 },
+		"fmtPct":    func(f float64) string { return fmt.Sprintf("%.2f", f) },
+		"todayPct":  func(year int) float64 { n := time.Now(); return datePctFloat(&n, year) },
 		"cellBg":    cellBg,
 		"cellText":  cellTextColor,
 		"statusDot": statusDot,
 		"abbrev":    abbrev,
 		"imul":      func(a, b int) int { return a * b },
+		"seq": func(n int) []int {
+			s := make([]int, n)
+			for i := range s {
+				s[i] = i
+			}
+			return s
+		},
 		"trayCellData": func(trayID int64, cell models.TrayCell) trayCellPartialData {
 			return trayCellPartialData{TrayID: trayID, Cell: cell}
 		},
