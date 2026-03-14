@@ -1,0 +1,16 @@
+services:
+  garden-app:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - garden-data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  garden-data:
