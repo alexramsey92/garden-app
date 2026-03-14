@@ -1,0 +1,45 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+garden-app
+
+# Build output
+/dist/
+/bin/
+
+# Database files (contain personal garden data)
+*.db
+*.db-wal
+*.db-shm
+~/.garden/
+
+# Go toolchain
+*.test
+*.out
+/vendor/
+/go.sum.bak
+
+# Environment & secrets
+.env
+.env.*
+*.env
+config.local.*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Test coverage
+coverage.out
+coverage.html

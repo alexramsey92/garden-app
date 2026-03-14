@@ -54,3 +54,68 @@ type Config struct {
 	Key   string
 	Value string
 }
+
+// Tray is a germination tray with a named grid of cells.
+type Tray struct {
+	ID        int64
+	Name      string
+	Rows      int
+	Cols      int
+	CreatedAt time.Time
+	Cells     [][]TrayCell // populated by GetTray; nil from ListTrays
+}
+
+// TrayCell is one position in a germination tray.
+type TrayCell struct {
+	ID           int64
+	TrayID       int64
+	Row          int
+	Col          int
+	SeedID       *int64
+	Label        string
+	Status       string // "empty" | "sown" | "germinated" | "failed" | "transplanted"
+	SownAt       *time.Time
+	GerminatedAt *time.Time
+	FailedAt     *time.Time
+	Notes        string
+}
+
+// RaisedBed is an outdoor growing area with a grid of plant positions.
+type RaisedBed struct {
+	ID        int64
+	Name      string
+	Rows      int
+	Cols      int
+	CreatedAt time.Time
+	Cells     [][]BedCell // populated by GetBed; nil from ListBeds
+}
+
+// BedCell is one plant position in a raised bed.
+type BedCell struct {
+	ID               int64
+	BedID            int64
+	Row              int
+	Col              int
+	SeedID           *int64
+	Label            string
+	Status           string // "empty" | "planted" | "growing" | "harvested" | "failed"
+	PlantedAt        *time.Time
+	HarvestedAt      *time.Time
+	FailedAt         *time.Time
+	SourceTrayCellID *int64
+	Notes            string
+}
+
+// TimelineItem represents one plant's journey from sowing to harvest.
+type TimelineItem struct {
+	Label        string
+	SeedID       *int64
+	TrayName     string
+	SownAt       *time.Time
+	GerminatedAt *time.Time
+	TrayFailedAt *time.Time
+	BedName      string
+	PlantedAt    *time.Time
+	HarvestedAt  *time.Time
+	BedFailedAt  *time.Time
+}

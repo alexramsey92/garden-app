@@ -1,0 +1,49 @@
+{{define "content"}}
+<div class="max-w-lg space-y-4">
+
+  <div class="flex items-center justify-between">
+    <h1 class="text-2xl font-bold text-gray-800">New Raised Bed</h1>
+    <a href="/beds" class="text-sm text-gray-500 hover:text-gray-700">← Back</a>
+  </div>
+
+  <div class="bg-white rounded-xl border border-gray-200 p-6">
+    <form method="POST" action="/beds" class="space-y-5">
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+        <input type="text" name="name" placeholder="e.g. North Bed, 3×10 Tomato Bed"
+               class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
+               autofocus required>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Size <span class="font-normal text-gray-400 text-xs">(1 cell = 1 plant position)</span></label>
+        <div class="grid grid-cols-4 gap-2 mb-3">
+          {{range .Sizes}}
+          <label class="flex items-center justify-center border border-gray-200 rounded-lg py-2 px-1 text-sm cursor-pointer hover:border-green-400 hover:bg-green-50 transition-colors">
+            <input type="radio" name="size" value="{{.}}" class="sr-only"> {{.}}
+          </label>
+          {{end}}
+        </div>
+        <div class="flex items-center gap-2 text-sm text-gray-500">
+          <span>or custom:</span>
+          <input type="number" name="rows" min="1" max="100" placeholder="rows"
+                 class="w-20 border border-gray-200 rounded px-2 py-1 text-sm">
+          <span>×</span>
+          <input type="number" name="cols" min="1" max="100" placeholder="cols"
+                 class="w-20 border border-gray-200 rounded px-2 py-1 text-sm">
+        </div>
+      </div>
+
+      <div class="flex gap-3 pt-2">
+        <button type="submit" class="bg-green-600 text-white text-sm px-5 py-2 rounded-lg hover:bg-green-700 transition-colors">
+          Create Bed
+        </button>
+        <a href="/beds" class="text-sm text-gray-500 hover:text-gray-700 px-3 py-2">Cancel</a>
+      </div>
+
+    </form>
+  </div>
+
+</div>
+{{end}}

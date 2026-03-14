@@ -41,5 +41,27 @@ type Store interface {
 	GetConfig(ctx context.Context, key string) (string, error)
 	SetConfig(ctx context.Context, key, value string) error
 
+	// Trays
+	AddTray(ctx context.Context, t *models.Tray) (int64, error)
+	ListTrays(ctx context.Context) ([]models.Tray, error)
+	GetTray(ctx context.Context, id int64) (*models.Tray, error)
+	RemoveTray(ctx context.Context, id int64) error
+	GetTrayCell(ctx context.Context, id int64) (*models.TrayCell, error)
+	SetTrayCell(ctx context.Context, c *models.TrayCell) error
+	ClearTrayCell(ctx context.Context, id int64) error
+
+	// Beds
+	AddBed(ctx context.Context, b *models.RaisedBed) (int64, error)
+	ListBeds(ctx context.Context) ([]models.RaisedBed, error)
+	GetBed(ctx context.Context, id int64) (*models.RaisedBed, error)
+	RemoveBed(ctx context.Context, id int64) error
+	GetBedCell(ctx context.Context, id int64) (*models.BedCell, error)
+	SetBedCell(ctx context.Context, c *models.BedCell) error
+	ClearBedCell(ctx context.Context, id int64) error
+	TransplantCell(ctx context.Context, trayCellID, bedID int64, row, col int) error
+
+	// Timeline
+	ListTimeline(ctx context.Context) ([]models.TimelineItem, error)
+
 	Close() error
 }

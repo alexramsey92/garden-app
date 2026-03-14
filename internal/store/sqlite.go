@@ -101,6 +101,53 @@ func (s *SQLiteStore) migrate() error {
 		key     TEXT PRIMARY KEY,
 		value   TEXT NOT NULL
 	);
+
+	CREATE TABLE IF NOT EXISTS trays (
+		id         INTEGER PRIMARY KEY AUTOINCREMENT,
+		name       TEXT NOT NULL,
+		rows       INTEGER NOT NULL,
+		cols       INTEGER NOT NULL,
+		created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+	);
+
+	CREATE TABLE IF NOT EXISTS tray_cells (
+		id             INTEGER PRIMARY KEY AUTOINCREMENT,
+		tray_id        INTEGER NOT NULL REFERENCES trays(id) ON DELETE CASCADE,
+		row            INTEGER NOT NULL,
+		col            INTEGER NOT NULL,
+		seed_id        INTEGER REFERENCES seeds(id) ON DELETE SET NULL,
+		label          TEXT NOT NULL DEFAULT '',
+		status         TEXT NOT NULL DEFAULT 'empty' CHECK(status IN ('empty','sown','germinated','failed','transplanted')),
+		sown_at        DATETIME,
+		germinated_at  DATETIME,
+		failed_at      DATETIME,
+		notes          TEXT NOT NULL DEFAULT '',
+		UNIQUE(tray_id, row, col)
+	);
+
+	CREATE TABLE IF NOT EXISTS beds (
+		id         INTEGER PRIMARY KEY AUTOINCREMENT,
+		name       TEXT NOT NULL,
+		rows       INTEGER NOT NULL,
+		cols       INTEGER NOT NULL,
+		created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+	);
+
+	CREATE TABLE IF NOT EXISTS bed_cells (
+		id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+		bed_id              INTEGER NOT NULL REFERENCES beds(id) ON DELETE CASCADE,
+		row                 INTEGER NOT NULL,
+		col                 INTEGER NOT NULL,
+		seed_id             INTEGER REFERENCES seeds(id) ON DELETE SET NULL,
+		label               TEXT NOT NULL DEFAULT '',
+		status              TEXT NOT NULL DEFAULT 'empty' CHECK(status IN ('empty','planted','growing','harvested','failed')),
+		planted_at          DATETIME,
+		harvested_at        DATETIME,
+		failed_at           DATETIME,
+		source_tray_cell_id INTEGER REFERENCES tray_cells(id) ON DELETE SET NULL,
+		notes               TEXT NOT NULL DEFAULT '',
+		UNIQUE(bed_id, row, col)
+	);
 	`
 	_, err := s.db.Exec(schema)
 	return err
