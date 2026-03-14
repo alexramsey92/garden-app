@@ -7,7 +7,7 @@
   </div>
 
   <!-- Search -->
-  <div class="bg-white rounded-xl border border-gray-200 p-4">
+  <div class="bg-stone-50 rounded-xl border border-gray-200 p-4">
     <input
       type="search"
       name="q"
@@ -20,9 +20,9 @@
     >
   </div>
 
-  <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+  <div class="bg-stone-50 rounded-xl border border-gray-200 overflow-hidden">
     <table class="w-full text-sm">
-      <thead class="bg-gray-50 text-gray-500 text-xs uppercase border-b border-gray-200">
+      <thead class="bg-stone-100 text-gray-500 text-xs uppercase border-b border-gray-200">
         <tr>
           <th class="px-5 py-3 text-left">Name</th>
           <th class="px-5 py-3 text-left">Variety</th>
@@ -43,7 +43,7 @@
 
 {{define "plant-rows"}}
 {{range .Specs}}
-<tr class="hover:bg-gray-50 cursor-pointer" onclick="window.location='/plants/{{.ID}}'">
+<tr class="hover:bg-stone-100 cursor-pointer" onclick="window.location='/plants/{{.ID}}'">
   <td class="px-5 py-3 font-medium text-gray-800">{{.Name}}</td>
   <td class="px-5 py-3 text-gray-600">{{.Variety}}</td>
   <td class="px-5 py-3 text-gray-600">{{.DaysToMaturity}}d</td>

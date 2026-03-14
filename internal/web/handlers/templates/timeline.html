@@ -17,7 +17,7 @@
   </div>
 
   {{if .Rows}}
-  <div class="bg-white rounded-xl border border-gray-200 p-4 overflow-x-auto">
+  <div class="bg-stone-50 rounded-xl border border-gray-200 p-4 overflow-x-auto">
     <!-- Month header -->
     <div class="flex mb-3">
       <div class="w-40 flex-shrink-0"></div>
@@ -44,7 +44,7 @@
           </div>
         </div>
         <!-- Gantt track -->
-        <div class="flex-1 relative h-6 bg-gray-100 rounded overflow-hidden">
+        <div class="flex-1 relative h-6 bg-stone-200 rounded overflow-hidden">
           <!-- Month dividers -->
           {{range $.Months}}
           <div class="absolute top-0 bottom-0 w-px bg-gray-200" style="left: {{fmtPct .Pct}}%"></div>
@@ -76,13 +76,13 @@
   </div>
 
   {{else}}
-  <div class="bg-white rounded-xl border border-gray-200 px-6 py-12 text-center">
+  <div class="bg-stone-50 rounded-xl border border-gray-200 px-6 py-12 text-center">
     <div class="text-5xl mb-3">📅</div>
     <p class="text-gray-500 text-sm">No plants tracked yet.</p>
     <p class="text-gray-400 text-xs mt-1">Sow seeds in a tray or plant directly in a bed to see the timeline.</p>
     <div class="flex justify-center gap-3 mt-4">
       <a href="/trays/new" class="bg-green-600 text-white text-sm px-4 py-2 rounded-lg hover:bg-green-700">+ New Tray</a>
-      <a href="/beds/new" class="border border-gray-200 text-gray-600 text-sm px-4 py-2 rounded-lg hover:bg-gray-50">+ New Bed</a>
+      <a href="/beds/new" class="border border-gray-200 text-gray-600 text-sm px-4 py-2 rounded-lg hover:bg-stone-100">+ New Bed</a>
     </div>
   </div>
   {{end}}

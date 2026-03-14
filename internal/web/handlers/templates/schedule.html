@@ -4,7 +4,7 @@
   <div class="flex items-center justify-between">
     <h1 class="text-2xl font-bold text-gray-800">Planting Schedule</h1>
     <div class="flex gap-2">
-      <a href="/schedule/suggest" class="text-sm bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors">
+      <a href="/schedule/suggest" class="text-sm bg-stone-50 border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-stone-100 transition-colors">
         Suggest Dates
       </a>
       <a href="/schedule/new" class="text-sm bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
@@ -14,7 +14,7 @@
   </div>
 
   <!-- Filter bar -->
-  <form method="GET" action="/schedule" class="bg-white rounded-xl border border-gray-200 p-4 flex flex-wrap gap-3 items-end text-sm">
+  <form method="GET" action="/schedule" class="bg-stone-50 rounded-xl border border-gray-200 p-4 flex flex-wrap gap-3 items-end text-sm">
     <div>
       <label class="block text-xs text-gray-500 mb-1">From</label>
       <input type="date" name="from"
@@ -39,14 +39,14 @@
         <option value="direct_sow">Direct Sow</option>
       </select>
     </div>
-    <button type="submit" class="bg-gray-100 text-gray-700 px-4 py-1.5 rounded-lg hover:bg-gray-200 text-sm">Filter</button>
+    <button type="submit" class="bg-stone-200 text-gray-700 px-4 py-1.5 rounded-lg hover:bg-gray-200 text-sm">Filter</button>
     <a href="/schedule" class="text-gray-400 hover:text-gray-600 px-2 py-1.5 text-sm">Clear</a>
   </form>
 
   {{if .Entries}}
-  <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+  <div class="bg-stone-50 rounded-xl border border-gray-200 overflow-hidden">
     <table class="w-full text-sm">
-      <thead class="bg-gray-50 text-gray-500 text-xs uppercase border-b border-gray-200">
+      <thead class="bg-stone-100 text-gray-500 text-xs uppercase border-b border-gray-200">
         <tr>
           <th class="px-5 py-3 text-left">Plant</th>
           <th class="px-5 py-3 text-left">Type</th>
@@ -65,7 +65,7 @@
     </table>
   </div>
   {{else}}
-  <div class="bg-white rounded-xl border border-gray-200 px-6 py-12 text-center">
+  <div class="bg-stone-50 rounded-xl border border-gray-200 px-6 py-12 text-center">
     <div class="text-5xl mb-3">📅</div>
     <p class="text-gray-500 text-sm">No schedule entries found.</p>
     <a href="/schedule/new" class="mt-3 inline-block bg-green-600 text-white text-sm px-4 py-2 rounded-lg hover:bg-green-700">
@@ -78,7 +78,7 @@
 {{end}}
 
 {{define "schedule-row"}}
-<tr id="schedule-row-{{.ID}}" class="hover:bg-gray-50 transition-colors {{if .ActualDate}}opacity-60{{end}}">
+<tr id="schedule-row-{{.ID}}" class="hover:bg-stone-100 transition-colors {{if .ActualDate}}opacity-60{{end}}">
   <td class="px-5 py-3 font-medium text-gray-800">{{.PlantName}}</td>
   <td class="px-5 py-3">
     <span class="{{typeClass .PlantingType}} px-2 py-0.5 rounded-full text-xs font-medium">

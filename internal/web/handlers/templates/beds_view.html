@@ -8,7 +8,7 @@
       <p class="text-sm text-gray-400">{{.Bed.Rows}} rows × {{.Bed.Cols}} cols · {{imul .Bed.Rows .Bed.Cols}} positions</p>
     </div>
     <div class="flex gap-2">
-      <a href="/timeline" class="text-sm text-gray-500 border border-gray-200 px-3 py-1.5 rounded-lg hover:bg-gray-50">Timeline →</a>
+      <a href="/timeline" class="text-sm text-gray-500 border border-gray-200 px-3 py-1.5 rounded-lg hover:bg-stone-100">Timeline →</a>
     </div>
   </div>
 
@@ -23,7 +23,7 @@
   </div>
 
   <!-- Grid -->
-  <div class="bg-white rounded-xl border border-gray-200 p-4 overflow-x-auto">
+  <div class="bg-stone-50 rounded-xl border border-gray-200 p-4 overflow-x-auto">
     <table class="border-collapse">
       <tbody>
         {{range $rowIdx, $row := .Bed.Cells}}
@@ -88,7 +88,7 @@
 {{end}}
 
 {{define "bed-cell-form"}}
-<div class="bg-white border-t-2 border-green-400 shadow-2xl p-4 max-w-sm mx-auto rounded-t-xl">
+<div class="bg-stone-50 border-t-2 border-green-400 shadow-2xl p-4 max-w-sm mx-auto rounded-t-xl">
   <div class="flex items-center justify-between mb-3">
     <h3 class="font-semibold text-gray-800 text-sm">
       {{.BedName}} · row {{.Cell.Row}}, col {{.Cell.Col}}
@@ -103,7 +103,7 @@
         class="space-y-2">
     <div>
       <label class="text-xs text-gray-500">Seed</label>
-      <select name="seed_id" class="w-full text-sm border border-gray-200 rounded px-2 py-1.5 bg-white">
+      <select name="seed_id" class="w-full text-sm border border-gray-200 rounded px-2 py-1.5 bg-stone-50">
         <option value="">— none —</option>
         {{range .Seeds}}
         <option value="{{.ID}}" {{if eq (deref $.Cell.SeedID) .ID}}selected{{end}}>
@@ -120,7 +120,7 @@
     <div class="flex gap-2">
       <div class="flex-1">
         <label class="text-xs text-gray-500">Status</label>
-        <select name="status" class="w-full text-sm border border-gray-200 rounded px-2 py-1.5 bg-white">
+        <select name="status" class="w-full text-sm border border-gray-200 rounded px-2 py-1.5 bg-stone-50">
           <option value="empty"     {{if eq .Cell.Status "empty"}}selected{{end}}>Empty</option>
           <option value="planted"   {{if eq .Cell.Status "planted"}}selected{{end}}>Planted</option>
           <option value="growing"   {{if eq .Cell.Status "growing"}}selected{{end}}>Growing</option>
@@ -147,7 +147,7 @@
               hx-delete="/beds/{{.BedID}}/cells/{{.Cell.ID}}"
               hx-target="#edit-panel > div"
               hx-swap="innerHTML"
-              class="px-3 bg-gray-100 text-gray-600 text-sm rounded-lg py-1.5 hover:bg-gray-200 transition-colors">
+              class="px-3 bg-stone-200 text-gray-600 text-sm rounded-lg py-1.5 hover:bg-gray-200 transition-colors">
         Clear
       </button>
       {{end}}
